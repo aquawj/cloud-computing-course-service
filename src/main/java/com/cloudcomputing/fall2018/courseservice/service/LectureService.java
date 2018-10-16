@@ -30,18 +30,20 @@ public class LectureService {
         lec_Map.put(id, lecture);
     }
 
-    public void addLecture(Lecture lecture) {
+    public Lecture addLecture(Lecture lecture) {
         int nextId = lec_Map.size() + 1;
         lecture.setId(nextId);
         lec_Map.put(nextId, lecture);
+        return lecture;
     }
 
     // add a piece of material to lecture
-    public void addMaterailToLecture(int lecId, String content){
+    public Map<Integer, String> addMaterailToLecture(int lecId, String content){
         Lecture lecture = lec_Map.get(lecId);
         int mt_id = lecture.getMaterials().size() + 1;
         lecture.getMaterials().put(mt_id, content);
         lec_Map.put(lecId,lecture);
+        return lecture.getMaterials();
     }
 
     //get a lecture

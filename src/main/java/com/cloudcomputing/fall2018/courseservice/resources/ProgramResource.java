@@ -21,19 +21,21 @@ public class ProgramResource {
     }
 
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addProgram(String name, List<Course> courses) {
-        programService.addProgram(name, courses);
-    }
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void addProgram(String name, List<Course> courses) {
+//        programService.addProgram(name, courses);
+//    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addProgram(String name) {
-        programService.addProgram(name);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Program addProgram(Program program) {
+        return programService.addProgram(program);
     }
 
     @POST
+    @Path("/addCourse")
     @Consumes(MediaType.APPLICATION_JSON)
     public void addCourseToProgram(String courseId, String programName){
         programService.addCourseToProgram(courseId, programName);

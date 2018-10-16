@@ -24,9 +24,10 @@ public class ProgramService {
         pro_Map.put(name, program);
     }
 
-    public void addProgram(String name) {
-        Program program = new Program(name);
+    public Program addProgram(Program program) {
+        String name = program.getName();
         pro_Map.put(name, program);
+        return program;
     }
 
     // add a course to program

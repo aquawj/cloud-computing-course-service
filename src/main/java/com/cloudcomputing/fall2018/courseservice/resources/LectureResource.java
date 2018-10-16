@@ -12,36 +12,35 @@ import java.util.Map;
 public class LectureResource {
     private LectureService lectureService = new LectureService();
 
-    // .../lectures
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Lecture> getAllLectures(){
-        return lectureService.getAllLectures();
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Lecture> getLecturesByCourse(@QueryParam("courseId") String courseId){
-        return lectureService.getLecturesByCourse(courseId);
+        if(courseId == null){
+            return lectureService.getAllLectures();
+        }else{
+            return lectureService.getLecturesByCourse(courseId);
+        }
     }
+
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void addLecture(String notes, Map<Integer, String> materials){
+//        lectureService.addLecture(notes, materials);
+//    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addLecture(String notes, Map<Integer, String> materials){
-        lectureService.addLecture(notes, materials);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Lecture addLecture(Lecture lecture) {
+        return lectureService.addLecture(lecture);
     }
 
     @POST
+    @Path("/addMaterial")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addLecture(Lecture lecture) {
-        lectureService.addLecture(lecture);
-    }
-
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addMaterialToLecture(int lecId, String content){
-        lectureService.addMaterailToLecture(lecId, content);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<Integer, String> addMaterialToLecture(int lecId, String content){
+        return lectureService.addMaterailToLecture(lecId, content);
     }
 
     // .../lectures/1
