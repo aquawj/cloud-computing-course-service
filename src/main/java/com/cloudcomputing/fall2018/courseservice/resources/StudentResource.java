@@ -21,35 +21,28 @@ public class StudentResource {
         return studentService.getAllStudents();
     }
 
-    // .../Students/?program=is
+    // .../Students/byProgram/?program=is
     @GET
-    @Path("/{programName}")
+    @Path("/byProgram")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Student> getStudentsByProgram(@QueryParam("programName") String programName){
-        return studentService.getStudentsByProgram(programName);
+            return studentService.getStudentsByProgram(programName);
     }
 
-    // .../Students/?courseId=cyse6150
+     //.../Students/byCourse/?courseId=cyse6150
     @GET
-    @Path("/{courseId}")
+    @Path("/byCourse")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Student> getStudentsByCourse(@QueryParam("courseId") String courseId){
         return studentService.getStudentsByCourse(courseId);
     }
 
-    // .../Students/?name=Jane
-    @GET
-    @Path("/{studentName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Student getStudentsByName(@QueryParam("studentName") String studentName){
-        return studentService.getStudent(studentName);
-    }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addStudent(String name, Program program, String image, List<Course> courses) {
-        studentService.addStudent(name, program, image, courses);
-    }
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void addStudent(String name, Program program, String image, List<Course> courses) {
+//        studentService.addStudent(name, program, image, courses);
+//    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

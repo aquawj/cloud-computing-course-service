@@ -11,39 +11,45 @@ import java.util.List;
 public class CourseResource {
     private CourseService courseService = new CourseService();
 
-    // .../courses
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Course> getAllCourses(){
-        return courseService.getAllCourses();
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Course> getCoursesByProgram(@QueryParam("program") Program program){
-        return courseService.getCoursesByProgram(program);
+        if(program == null){
+            return courseService.getAllCourses();
+        }else{
+            return courseService.getCoursesByProgram(program);
+        }
     }
+
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void addCourse(String name, String id, String board, String roster, Student ta, Professor professor) {
+//        courseService.addCourse(name, id, board, roster, ta, professor);
+//    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addCourse(String name, String id, String board, String roster, Student ta, Professor professor) {
-        courseService.addCourse(name, id, board, roster, ta, professor);
-    }
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addCourse(Course course) {
-        courseService.addCourse(course);
-    }
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addLectureToCourse(String courseId, Lecture lecture){
-        courseService.addLectureToCourse(courseId, lecture);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Course addCourse(Course course) {
+        return courseService.addCourse(course);
     }
 
+    // .../courses/addLecture
     @POST
+    @Path("/addLecture")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addStudentToCourse(String courseId, Student student){
-        courseService.addStudentToCourse(courseId, student);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Lecture addLectureToCourse(String courseId, Lecture lecture){
+        return courseService.addLectureToCourse(courseId, lecture);
+    }
+
+    // .../courses/addStudent
+    @POST
+    @Path("/addStudent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Student addStudentToCourse(String courseId, Student student){
+        return courseService.addStudentToCourse(courseId, student);
     }
 
     // .../courses/cyse6150
@@ -62,17 +68,17 @@ public class CourseResource {
         return courseService.deleteCourse(courseId);
     }
 
-    // .../courses/cyse6150/?studentId=1
+    // .../courses/cyse6150/student/?studentId=1
     @DELETE
-    @Path("/{courseId}")
+    @Path("/{courseId}/student")
     @Produces(MediaType.APPLICATION_JSON)
     public Student deleteStudentInCourse(@PathParam("courseId") String courseId, @QueryParam("studentId") long studentId) {
         return courseService.deleteStudentInCourse(courseId,studentId);
     }
 
-    // .../courses/cyse6150/?lecId=2
+    // .../courses/cyse6150/lecture/?lecId=2
     @DELETE
-    @Path("/{courseId}")
+    @Path("/{courseId}/lecture")
     @Produces(MediaType.APPLICATION_JSON)
     public Lecture deleteLectureInCourse(@PathParam("courseId") String courseId, @QueryParam("lecId") int lecId) {
         return courseService.deleteLectureInCourse(courseId, lecId);

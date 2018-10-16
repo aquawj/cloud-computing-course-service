@@ -27,22 +27,25 @@ public class CourseService {
         course_Map.put(id, course);
     }
 
-    public void addCourse(Course course) {
+    public Course addCourse(Course course) {
         course_Map.put(course.getId(), course);
+        return course;
     }
 
     // add a lecture to course
-    public void addLectureToCourse(String courseId, Lecture lecture){
+    public Lecture addLectureToCourse(String courseId, Lecture lecture){
         Course course = course_Map.get(courseId);
         course_Map.get(courseId).getLectures().add(lecture);
         course_Map.put(courseId, course);
+        return lecture;
     }
 
     // add a student to course
-    public void addStudentToCourse(String courseId, Student student){
+    public Student addStudentToCourse(String courseId, Student student){
         Course course = course_Map.get(courseId);
         course_Map.get(courseId).getStudents().add(student);
         course_Map.put(courseId, course);
+        return student;
     }
 
     //get a course
