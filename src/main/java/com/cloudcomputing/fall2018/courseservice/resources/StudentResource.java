@@ -1,7 +1,5 @@
 package com.cloudcomputing.fall2018.courseservice.resources;
 
-import com.cloudcomputing.fall2018.courseservice.datamodel.Course;
-import com.cloudcomputing.fall2018.courseservice.datamodel.Program;
 import com.cloudcomputing.fall2018.courseservice.datamodel.Student;
 import com.cloudcomputing.fall2018.courseservice.service.StudentService;
 
@@ -22,12 +20,12 @@ public class StudentResource {
     }
 
     // .../Students/byProgram/?program=is
-    @GET
-    @Path("/byProgram")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Student> getStudentsByProgram(@QueryParam("programName") String programName){
-            return studentService.getStudentsByProgram(programName);
-    }
+//    @GET
+//    @Path("/byProgram")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<Student> getStudentsByProgram(@QueryParam("programName") String programName){
+//            return studentService.getStudentsByProgram(programName);
+//    }
 
      //.../Students/byCourse/?courseId=cyse6150
     @GET

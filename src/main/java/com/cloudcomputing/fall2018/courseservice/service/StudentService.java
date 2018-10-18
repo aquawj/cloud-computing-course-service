@@ -2,6 +2,7 @@ package com.cloudcomputing.fall2018.courseservice.service;
 
 import com.cloudcomputing.fall2018.courseservice.datamodel.*;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,27 +19,26 @@ public class StudentService {
     }
 
     //get students in a program
-    public List<Student> getStudentsByProgram(String programName) {
-        ArrayList<Student> list = new ArrayList<>();
-        for (Student stu : student_Map.values()) {
-            if (stu.getProgram().getName().equals(programName)) {
-                list.add(stu);
-            }
-        }
-        return list ;
-    }
+//    public List<Student> getStudentsByProgram(String programName) {
+//        ArrayList<Student> list = new ArrayList<>();
+//        for (Student stu : student_Map.values()) {
+//            if (stu.getProgramName().equals(programName)) {
+//                list.add(stu);
+//            }
+//        }
+//        return list ;
+//    }
 
     //get students enrolled in a course
     public List<Student> getStudentsByCourse(String courseId){
-        Course course = CourseService.course_Map.get(courseId);
-        return course.getStudents();
-    }
-
-    // add a student
-    public void addStudent(String name, Program program, String image, List<Course> courses) {
-        long nextAvailableId = student_Map.size() + 1;
-        Student student = new Student(name, nextAvailableId, image, courses, program);
-        student_Map.put(nextAvailableId, student);
+        List<Student> studentList = new ArrayList<>();
+        if(CourseService.course_Map.containsKey(courseId)){
+            Course course = CourseService.course_Map.get(courseId);
+            for(long id : course.getStudents()){
+                studentList.add(student_Map.get(id));
+            }
+        }
+        return studentList;
     }
 
     public Student addStudent(Student student) {
@@ -50,18 +50,19 @@ public class StudentService {
 
     // get a student by ID
     public Student getStudent(long id) {
+
         return student_Map.get(id);
     }
 
     // get a student by name
-    public Student getStudent(String name) {
-        for(long id : student_Map.keySet()){
-            if(student_Map.get(id).getName().equals(name)){
-                return student_Map.get(id);
-            }
-        }
-        return null;
-    }
+//    public Student getStudent(String name) {
+//        for(long id : student_Map.keySet()){
+//            if(student_Map.get(id).getName().equals(name)){
+//                return student_Map.get(id);
+//            }
+//        }
+//        return null;
+//    }
 
     //delete a student
     public Student deleteStudent(Long id) {

@@ -7,7 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/courses")
+@Path("courses")
 public class CourseResource {
     private CourseService courseService = new CourseService();
 
@@ -34,23 +34,23 @@ public class CourseResource {
         return courseService.addCourse(course);
     }
 
-    // .../courses/addLecture
-    @POST
-    @Path("/addLecture")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Lecture addLectureToCourse(String courseId, Lecture lecture){
-        return courseService.addLectureToCourse(courseId, lecture);
-    }
-
-    // .../courses/addStudent
-    @POST
-    @Path("/addStudent")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Student addStudentToCourse(String courseId, Student student){
-        return courseService.addStudentToCourse(courseId, student);
-    }
+//     //.../courses/addLecture
+//    @POST
+//    @Path("/addLecture")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Lecture addLectureToCourse(String courseId, Lecture lecture){
+//        return courseService.addLectureToCourse(courseId, lecture);
+//    }
+//
+//     //.../courses/addStudent
+//    @POST
+//    @Path("/addStudent")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Student addStudentToCourse(String courseId, Student student){
+//        return courseService.addStudentToCourse(courseId, student);
+//    }
 
     // .../courses/cyse6150
     @GET

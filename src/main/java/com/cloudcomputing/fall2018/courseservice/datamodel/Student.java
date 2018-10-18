@@ -7,65 +7,58 @@ public class Student {
     String name;
     long id;
     String image;
-    List<Course> enrolledCourses;
-    Program program;
+    List<String> enrolledCourses;
+    String programName;
 
     public Student(){
 
     }
 
-    public Student(String name, Program program) {
-        this.name = name;
-        this.program = program;
-        this.image = null;
-        this.enrolledCourses = new ArrayList<>();
-    }
-
-    public Student(String name, long id, String image, List<Course> enrolledCourses, Program program) {
+    public Student(String name, long id, String image, List<String> enrolledCourses, String programName) {
         this.name = name;
         this.id = id;
         this.image = image;
         this.enrolledCourses = enrolledCourses;
-        this.program = program;
+        this.programName = programName;
     }
 
     public String getName() {
         return name;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public List<Course> getEnrolledCourses() {
-        return enrolledCourses;
-    }
-
-    public Program getProgram() {
-        return program;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
+    public String getImage() {
+        return image;
+    }
+
     public void setImage(String image) {
         this.image = image;
     }
 
-    public void setEnrolledCourses(List<Course> enrolledCourses) {
+    public List<String> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
+    public void setEnrolledCourses(List<String> enrolledCourses) {
         this.enrolledCourses = enrolledCourses;
     }
 
-    public void setProgram(Program program) {
-        this.program = program;
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void setProgramName(String programName) {
+        this.programName = programName;
     }
 }

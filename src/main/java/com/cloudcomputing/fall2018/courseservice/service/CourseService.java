@@ -22,11 +22,6 @@ public class CourseService {
     }
 
     // add a course
-    public void addCourse(String name, String id, String board, String roster, Student ta, Professor professor) {
-        Course course = new Course(name, id, board, roster, ta, professor);
-        course_Map.put(id, course);
-    }
-
     public Course addCourse(Course course) {
         course_Map.put(course.getId(), course);
         return course;
@@ -35,7 +30,7 @@ public class CourseService {
     // add a lecture to course
     public Lecture addLectureToCourse(String courseId, Lecture lecture){
         Course course = course_Map.get(courseId);
-        course_Map.get(courseId).getLectures().add(lecture);
+        course_Map.get(courseId).getLectures().add(lecture.getId());
         course_Map.put(courseId, course);
         return lecture;
     }
@@ -43,7 +38,7 @@ public class CourseService {
     // add a student to course
     public Student addStudentToCourse(String courseId, Student student){
         Course course = course_Map.get(courseId);
-        course_Map.get(courseId).getStudents().add(student);
+        course_Map.get(courseId).getStudents().add(student.getId());
         course_Map.put(courseId, course);
         return student;
     }
@@ -57,7 +52,7 @@ public class CourseService {
     //delete a course
     public Course deleteCourse(String courseId) {
         Course deletedCourse = course_Map.get(courseId);
-        course_Map.remove(deletedCourse);
+        course_Map.remove(courseId);
         return deletedCourse;
     }
 

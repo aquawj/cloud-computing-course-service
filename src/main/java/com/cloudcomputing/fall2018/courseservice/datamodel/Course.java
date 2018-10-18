@@ -6,33 +6,26 @@ import java.util.List;
 public class Course {
     String name;
     String id;
-    List<Lecture> lectures;
+    List<Integer> lectures;
     String board;
     String roster;
-    List<Student> students;
-    Student ta;
-    Professor professor;
+    List<Long> students;
+    Long taId;
+    Long professorId;
 
-    public Course(String name, String id, String board, String roster, Student ta, Professor professor) {
-        this.name = name;
-        this.id = id;
-        this.board = board;
-        this.roster = roster;
-        this.ta = ta;
-        this.professor = professor;
-        this.lectures = new ArrayList<>();
-        this.students = new ArrayList<>();
+    public Course(){
+
     }
 
-    public Course(String name, String id, List<Lecture> lectures, String board, String roster, List<Student> students, Student ta, Professor professor) {
+    public Course(String name, String id, List<Integer> lectures, String board, String roster, List<Long> students, Long taId, Long professorId) {
         this.name = name;
         this.id = id;
         this.lectures = lectures;
         this.board = board;
         this.roster = roster;
         this.students = students;
-        this.ta = ta;
-        this.professor = professor;
+        this.taId = taId;
+        this.professorId = professorId;
     }
 
     public String getName() {
@@ -51,11 +44,11 @@ public class Course {
         this.id = id;
     }
 
-    public List<Lecture> getLectures() {
+    public List<Integer> getLectures() {
         return lectures;
     }
 
-    public void setLectures(List<Lecture> lectures) {
+    public void setLectures(List<Integer> lectures) {
         this.lectures = lectures;
     }
 
@@ -75,27 +68,27 @@ public class Course {
         this.roster = roster;
     }
 
-    public List<Student> getStudents() {
+    public List<Long> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(List<Long> students) {
         this.students = students;
     }
 
-    public Student getTa() {
-        return ta;
+    public Long getTaId() {
+        return taId;
     }
 
-    public void setTa(Student ta) {
-        this.ta = ta;
+    public void setTaId(Long taId) {
+        this.taId = taId;
     }
 
-    public Professor getProfessor() {
-        return professor;
+    public Long getProfessorId() {
+        return professorId;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
+    public void setProfessorId(Long professorId) {
+        this.professorId = professorId;
     }
 }
