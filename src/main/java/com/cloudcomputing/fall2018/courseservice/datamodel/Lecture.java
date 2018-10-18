@@ -1,19 +1,19 @@
 package com.cloudcomputing.fall2018.courseservice.datamodel;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Lecture {
     int id;
     String notes;
-    Map<Integer, String> materials;
+    List<String> materials;
 
     public Lecture(){
         this.notes = null;
-        this.materials = new HashMap<>();
+        this.materials = new ArrayList<>();
     }
 
-    public Lecture(int id, String notes, Map<Integer, String> materials) {
+    public Lecture(int id, String notes, List<String> materials) {
         this.id = id;
         this.notes = notes;
         this.materials = materials;
@@ -35,11 +35,11 @@ public class Lecture {
         this.notes = notes;
     }
 
-    public Map<Integer, String> getMaterials() {
+    public List<String> getMaterials() {
         return materials;
     }
 
-    public void setMaterials(Map<Integer, String> materials) {
+    public void setMaterials(List<String> materials) {
         this.materials = materials;
     }
 }

@@ -19,7 +19,7 @@ public class ProgramService {
     }
 
     // add a program
-    public void addProgram(String name, List<Course> courses) {
+    public void addProgram(String name, List<String> courses) {
         Program program = new Program(name, courses);
         pro_Map.put(name, program);
     }
@@ -32,8 +32,7 @@ public class ProgramService {
 
     // add a course to program
     public void addCourseToProgram(String courseId, String programName){
-        Course course = CourseService.course_Map.get(courseId);
-        pro_Map.get(programName).getCourses().add(course);
+        pro_Map.get(programName).getCourses().add(courseId);
     }
 
     // get a program by name
@@ -51,8 +50,7 @@ public class ProgramService {
     //delete a course in a program
     public Program deleteCourseInProgram(String courseId, String programName) {
         Program program = pro_Map.get(programName);
-        Course course = CourseService.course_Map.get(courseId);
-        program.getCourses().remove(course);
+        program.getCourses().remove(courseId);
         pro_Map.put(programName, program);
         return program;
     }

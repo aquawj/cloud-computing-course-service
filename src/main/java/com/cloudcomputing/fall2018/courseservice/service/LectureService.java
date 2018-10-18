@@ -20,11 +20,16 @@ public class LectureService {
     //get all lectures of a course
     public List<Lecture> getLecturesByCourse(String courseId){
         Course course = CourseService.course_Map.get(courseId);
-        return course.getLectures();
+        List<Lecture> list = new ArrayList<>();
+        List<Integer> lecListByCourse = course.getLectures();
+        for(int lecId : lecListByCourse){
+            list.add(lec_Map.get(lecId));
+        }
+        return list;
     }
 
     // add a lecture
-    public void addLecture(String notes, Map<Integer, String> materials) {
+    public void addLecture(String notes, List<String> materials) {
         int id = lec_Map.size() + 1;
         Lecture lecture = new Lecture(id, notes, materials);
         lec_Map.put(id, lecture);
@@ -38,10 +43,9 @@ public class LectureService {
     }
 
     // add a piece of material to lecture
-    public Map<Integer, String> addMaterailToLecture(int lecId, String content){
+    public List<String> addMaterailToLecture(int lecId, String content){
         Lecture lecture = lec_Map.get(lecId);
-        int mt_id = lecture.getMaterials().size() + 1;
-        lecture.getMaterials().put(mt_id, content);
+        lecture.getMaterials().add(content);
         lec_Map.put(lecId,lecture);
         return lecture.getMaterials();
     }
@@ -55,7 +59,7 @@ public class LectureService {
     //delete a lecture
     public Lecture deleteLecture(int id) {
         Lecture lecture = lec_Map.get(id);
-        lec_Map.remove(lecture);
+        lec_Map.remove(id);
         return lecture;
     }
 

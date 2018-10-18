@@ -8,7 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/programs")
+@Path("programs")
 public class ProgramResource {
 
     private ProgramService programService = new ProgramService();
@@ -34,12 +34,12 @@ public class ProgramResource {
         return programService.addProgram(program);
     }
 
-    @POST
-    @Path("/addCourse")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addCourseToProgram(String courseId, String programName){
-        programService.addCourseToProgram(courseId, programName);
-    }
+//    @POST
+//    @Path("/addCourse")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void addCourseToProgram(String courseId, String programName){
+//        programService.addCourseToProgram(courseId, programName);
+//    }
 
     // .../programs/is
     @GET

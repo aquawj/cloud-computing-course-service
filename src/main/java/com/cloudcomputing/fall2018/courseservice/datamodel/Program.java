@@ -5,14 +5,18 @@ import java.util.List;
 
 public class Program {
     String name;
-    List<Course> courses;
+    List<String> courses;
+
+    public Program(){
+
+    }
 
     public Program(String name) {
         this.name = name;
         courses = new ArrayList<>();
     }
 
-    public Program(String name, List<Course> courses) {
+    public Program(String name, List<String> courses) {
         this.name = name;
         this.courses = courses;
     }
@@ -25,11 +29,11 @@ public class Program {
         this.name = name;
     }
 
-    public List<Course> getCourses() {
+    public List<String> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(List<String> courses) {
         this.courses = courses;
     }
 }
