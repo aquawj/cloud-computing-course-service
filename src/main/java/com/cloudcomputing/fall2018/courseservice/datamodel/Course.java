@@ -8,7 +8,7 @@ public class Course {
     String id;
     List<Integer> lectures;
     String board;
-    String roster;
+    List<Long> roster;
     List<Long> students;
     Long taId;
     Long professorId;
@@ -17,7 +17,7 @@ public class Course {
 
     }
 
-    public Course(String name, String id, List<Integer> lectures, String board, String roster, List<Long> students, Long taId, Long professorId) {
+    public Course(String name, String id, List<Integer> lectures, String board, List<Long> roster, List<Long> students, Long taId, Long professorId) {
         this.name = name;
         this.id = id;
         this.lectures = lectures;
@@ -60,11 +60,11 @@ public class Course {
         this.board = board;
     }
 
-    public String getRoster() {
+    public List<Long> getRoster() {
         return roster;
     }
 
-    public void setRoster(String roster) {
+    public void setRoster(List<Long> roster) {
         this.roster = roster;
     }
 
