@@ -22,13 +22,12 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
       body: 
       
       
-      {
+       {
               "enrolledCourses": [
                   "cloud",
                   "data",
                   "java"
               ],
-              "id": 1,
               "image": "www.image.com/22",
               "name": "Jane",
               "programName": "IS"
@@ -40,7 +39,6 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
                   "web",
                   "PDP"
               ],
-              "id": 2,
               "image": "www.image.com/2",
               "name": "Ellen",
               "programName": "CS"
@@ -52,7 +50,6 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
                   "web",
                   "data"
               ],
-              "id": 3,
               "image": "www.image.com/62",
               "name": "David",
               "programName": "IS"
@@ -63,7 +60,6 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
                   "web",
                   "java"
               ],
-              "id": 4,
               "image": "www.image.com/4",
               "name": "Ethan",
               "programName": "IS"
@@ -260,7 +256,6 @@ webapi/students/{studentId}
         body: 
 
     {
-            "id": 1,
             "materials": [
                 "material1",
                 "head1"
@@ -268,7 +263,6 @@ webapi/students/{studentId}
             "notes": "notes1"
         },
         {
-            "id": 2,
             "materials": [
                 "material2",
                 "head2"
