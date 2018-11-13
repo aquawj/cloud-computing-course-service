@@ -18,15 +18,15 @@ public class LectureService {
     }
 
     //get all lectures of a course
-    public List<Lecture> getLecturesByCourse(String courseId){
-        Course course = CourseService.course_Map.get(courseId);
-        List<Lecture> list = new ArrayList<>();
-        List<Integer> lecListByCourse = course.getLectures();
-        for(int lecId : lecListByCourse){
-            list.add(lec_Map.get(lecId));
-        }
-        return list;
-    }
+//    public List<Lecture> getLecturesByCourse(String courseId){
+//        Course course = CourseService.course_Map.get(courseId);
+//        List<Lecture> list = new ArrayList<>();
+//        List<Integer> lecListByCourse = course.getLectures();
+//        for(int lecId : lecListByCourse){
+//            list.add(lec_Map.get(lecId));
+//        }
+//        return list;
+//    }
 
     // add a lecture
     public void addLecture(String notes, List<String> materials) {

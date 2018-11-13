@@ -4,66 +4,108 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.cloudcomputing.fall2018.courseservice.datamodel.DynamoDbConnector;
 import com.cloudcomputing.fall2018.courseservice.datamodel.InMemoryDatabase;
 import com.cloudcomputing.fall2018.courseservice.datamodel.Professor;
+import com.cloudcomputing.fall2018.courseservice.datamodel.Student;
 
 public class ProfessorsService {
-	static HashMap<Long, Professor> prof_Map = InMemoryDatabase.getProfessorDB();
+	//static HashMap<Long, Professor> prof_Map = InMemoryDatabase.getProfessorDB();
+	static DynamoDbConnector dynamoDb;
+	DynamoDBMapper mapper; 
+    DynamoDBQueryExpression<Professor> queryExpression;
+    DynamoDBScanExpression scanExpression;
 	
+	public ProfessorsService(){
+		dynamoDb = new DynamoDbConnector();
+		dynamoDb.init();
+		mapper = new DynamoDBMapper(dynamoDb.getClient());
+		queryExpression = new DynamoDBQueryExpression<Professor>();
+		scanExpression = new DynamoDBScanExpression();
+	}
+
 	//get a list of all professors
 	//GET "..webapi/professors"
 	public List<Professor> getAllProfessors(){
-		List<Professor> list = new ArrayList<>();
-		list.addAll(prof_Map.values());
-		return list;
+		return mapper.scan(Professor.class, scanExpression);
 	}
 	
 	// Get professors in a department 
-		public List<Professor> getProfessorsByDepartment(String department) {	
-			//Getting the list
-			ArrayList<Professor> list = new ArrayList<>();
-			for (Professor prof : prof_Map.values()) {
-				if (prof.getDepartment().equals(department)) {
-					list.add(prof);
-				}
-			}
-			return list ;
-		}
+//	public List<Professor> getProfessorsByDepartment(String department) {	
+//		List<Professor> professors = queryProfessors(department);
+//		return professors;
+//	}	
 	
 	// Adding a professor
-	//for post
-	public void addProfessor(String name, String department, Date joiningDate) {
+	public void addProfessor(long professorId, String name, String department, String joiningDate) {
 		//next id?
-		long nextAvailableId = prof_Map.size() + 1;
-		
-		Professor prof = new Professor(nextAvailableId, name, department, joiningDate);
-		prof_Map.put(nextAvailableId, prof);
+		//long nextAvailableId = prof_Map.size() + 1;
+		Professor prof = new Professor(professorId, name, department, joiningDate);
+		mapper.save(prof);
 	}
+	
 	public Professor addProfessor(Professor prof) {
-		long nextAvailableId = prof_Map.size() + 1;
-		prof.setProfessorId(nextAvailableId);
-		prof_Map.put(nextAvailableId, prof);
-		return prof_Map.get(nextAvailableId);
+		mapper.save(prof);
+		return prof;
 	}
 	
 	// Getting One Professor
-	public Professor getProfessor(long profId) {
-		return prof_Map.get(profId);
+	public List<Professor> getProfessor(long profId) {
+		List<Professor> professors = queryProfessors(profId);
+		return professors;
 	}
-	
+		
 	//Deleting a professor
-	public Professor deleteProfessor(Long profId) {
-		Professor deletedProfDetails = prof_Map.get(profId);
-		prof_Map.remove(profId);
-		return deletedProfDetails;
+	public void deleteProfessor(long profId) {
+		for(Professor p : getProfessor(profId)) {
+			mapper.delete(p);
+		}
 	}
 	
 	//Updating Professor Info
 	public Professor updateProfessorInformation(long profId, Professor prof) {
+		List<Professor> delete = getProfessor(profId);
+    	for(Professor d : delete) {
+    		mapper.delete(d);
+    	}
 		prof.setProfessorId(profId);
-		prof_Map.put(profId, prof) ;
+		mapper.save(prof);
 		return prof;
 	}
 	
+	private List<Professor> queryProfessors(long profId) {
+        Professor p= new Professor();
+        p.setProfessorId(profId);
+        queryExpression.setHashKeyValues(p);
+        queryExpression.withIndexName("professorId-index");
+        queryExpression.setConsistentRead(false);
+        List<Professor> professors = mapper.query(Professor.class, queryExpression);
+        return professors;
+    }
+	
+//	private List<Professor> queryProfessors(String dept) {
+////		List<Professor> all = getAllProfessors();
+////		for(Professor p : all) {
+////			if(p.getDepartment().equals(dept)) {
+////				scanExpression
+//////				queryExpression.setHashKeyValues(p);
+//////				queryExpression.withIndexName("professorId-index");
+//////		        queryExpression.setConsistentRead(false);
+////			}
+////		}
+//		Map<String, AttributeValue> map = new HashMap<String, AttributeValue>();
+//        map.put(":d", new AttributeValue().withS(dept));
+//
+//        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+//            .withFilterExpression("department = :d").withExpressionAttributeValues(map);
+//        
+//        List<Professor> professors = mapper.query(Professor.class, queryExpression);
+//        return professors;
+//    }
 }

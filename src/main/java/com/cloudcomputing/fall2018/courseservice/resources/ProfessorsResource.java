@@ -23,21 +23,19 @@ public class ProfessorsResource {
 	
 	ProfessorsService profService = new ProfessorsService();
 	
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public List<Professor> getProfessors() {
-//		return profService.getAllProfessors();
-//	}
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Professor> getProfessorsByDeparment(@QueryParam("department") String department){
-		if(department == null) {
-			return profService.getAllProfessors();
-		}else {
-			return profService.getProfessorsByDepartment(department);
-		}
+	public List<Professor> getProfessors(){
+		return profService.getAllProfessors();
 	}
+	
+//	public List<Professor> getProfessorsByDeparment(@QueryParam("department") String department){
+//		if(department == null) {
+//			return profService.getAllProfessors();
+//		}else {
+//			return profService.getProfessorsByDepartment(department);
+//		}
+//	}
 	
 	
 	@POST
@@ -48,23 +46,23 @@ public class ProfessorsResource {
 		return profService.addProfessor(prof);
 	}
 	
-	public void addProfessor(String name, String department, Date joiningDate) {
-		profService.addProfessor(name, department, joiningDate);
+	public void addProfessor(long professorId, String name, String department, String joiningDate) {
+		profService.addProfessor(professorId, name, department, joiningDate);
 	}
 	
 	// ...webapi/professors/1
 	@GET
 	@Path("/{professorId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Professor getProfessor(@PathParam("professorId") long profId) {
+	public List<Professor> getProfessor(@PathParam("professorId") long profId) {
 		return profService.getProfessor(profId);
 	}
 	
 	@DELETE
 	@Path("/{professorId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Professor deleteProfessor(@PathParam("professorId") long profId) {
-		return profService.deleteProfessor(profId);
+	public void deleteProfessor(@PathParam("professorId") long profId) {
+		profService.deleteProfessor(profId);
 	}
 	
 	@PUT
