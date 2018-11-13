@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ProgramService {
-    private HashMap<String, Program> pro_Map = InMemoryDatabase.getProgramDB();
+    static HashMap<String, Program> pro_Map = InMemoryDatabase.getProgramDB();
 
     //get all programs
     public List<Program> getAllPrograms(){

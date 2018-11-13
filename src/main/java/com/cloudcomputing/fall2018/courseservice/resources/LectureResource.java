@@ -13,12 +13,10 @@ public class LectureResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Lecture> getLecturesByCourse(@QueryParam("courseId") String courseId){
-        if(courseId == null){
-            return lectureService.getAllLectures();
-        }else{
-            return lectureService.getLecturesByCourse(courseId);
-        }
+    public List<Lecture> getLecturesByCourse(){
+       
+          return lectureService.getAllLectures();
+        
     }
 
 //    @POST

@@ -1,5 +1,8 @@
 package com.cloudcomputing.fall2018.courseservice.service;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.cloudcomputing.fall2018.courseservice.datamodel.*;
 
 import java.util.ArrayList;
@@ -7,77 +10,80 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CourseService {
-    static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
+    //static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
+	static DynamoDbConnector dynamoDb;
+	DynamoDBMapper mapper; 
+    DynamoDBQueryExpression<Course> queryExpression;
+    DynamoDBScanExpression scanExpression;
+    
+    public CourseService(){
+		dynamoDb = new DynamoDbConnector();
+		dynamoDb.init();
+		mapper = new DynamoDBMapper(dynamoDb.getClient());
+		queryExpression = new DynamoDBQueryExpression<Course>();
+	    scanExpression = new DynamoDBScanExpression();
+	}
 
     //get all courses
     public List<Course> getAllCourses(){
-        List<Course> list = new ArrayList<>();
-        list.addAll(course_Map.values());
-        return list;
-    }
-
-    //get all courses of a program
-    public List<Course> getCoursesByProgram(Program program){
-        return program.getCourses();
+    	return mapper.scan(Course.class, scanExpression);
     }
 
     // add a course
     public Course addCourse(Course course) {
-        course_Map.put(course.getId(), course);
-        return course;
-    }
-
-    // add a lecture to course
-    public Lecture addLectureToCourse(String courseId, Lecture lecture){
-        Course course = course_Map.get(courseId);
-        course_Map.get(courseId).getLectures().add(lecture.getId());
-        course_Map.put(courseId, course);
-        return lecture;
+    	 mapper.save(course);
+         return course;
     }
 
     // add a student to course
-    public Student addStudentToCourse(String courseId, Student student){
-        Course course = course_Map.get(courseId);
-        course_Map.get(courseId).getStudents().add(student.getId());
-        course_Map.put(courseId, course);
-        return student;
+    public Course addStudentToCourse(String courseId, String studentId){
+        Course course = getCourse(courseId).get(0);
+        course.getRoster().add(studentId);
+        return course;
     }
 
     //get a course
-    public Course getCourse(String courseId){
-        return course_Map.get(courseId);
+    public List<Course> getCourse(String courseId){
+    	return queryCourse(courseId);
     }
 
 
     //delete a course
     public Course deleteCourse(String courseId) {
-        Course deletedCourse = course_Map.get(courseId);
-        course_Map.remove(courseId);
-        return deletedCourse;
+    	for(Course c : getCourse(courseId)) {
+			mapper.delete(c);
+		}
+		return getCourse(courseId).get(0);
     }
 
     //delete a student in a course
-    public Student deleteStudentInCourse(String courseId, long studentId) {
-        Student student = StudentService.student_Map.get(studentId);
-        Course course = course_Map.get(courseId);
-        course.getStudents().remove(student);
-        course_Map.put(courseId, course);
-        return student;
+    public Course deleteStudentInCourse(String courseId, String studentId) {
+    	Course course = getCourse(courseId).get(0);
+        course.getRoster().remove(studentId);
+        return course;
     }
 
     //delete a lecture in a course
-    public Lecture deleteLectureInCourse(String courseId, int lecId) {
-        Lecture lecture = LectureService.lec_Map.get(lecId);
-        Course course = course_Map.get(courseId);
-        course.getLectures().remove(lecture);
-        course_Map.put(courseId, course);
-        return lecture;
-    }
-
+    
     //update a course
+    
     public Course updateCourseInformation(String courseId, Course course) {
-        course.setId(courseId);
-        course_Map.put(courseId, course);
-        return course;
+    	List<Course> delete = getCourse(courseId);
+    	for(Course d : delete) {
+    		mapper.delete(d);
+    	}
+    	course.setCourseId(courseId);
+		mapper.save(course);
+		return course;
+    }
+    
+    private List<Course> queryCourse(String courseId) {
+    	Course course = new Course();
+    	course.setCourseId(courseId);
+        queryExpression.setHashKeyValues(course);
+        queryExpression.withIndexName("courseId-index");
+        queryExpression.setConsistentRead(false);
+        List<Course> courses = mapper.query(Course.class, queryExpression);
+        return courses;
     }
 }

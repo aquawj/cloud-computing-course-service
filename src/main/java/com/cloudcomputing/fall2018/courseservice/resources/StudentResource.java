@@ -19,27 +19,13 @@ public class StudentResource {
         return studentService.getAllStudents();
     }
 
-    // .../Students/byProgram/?program=is
-//    @GET
-//    @Path("/byProgram")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<Student> getStudentsByProgram(@QueryParam("programName") String programName){
-//            return studentService.getStudentsByProgram(programName);
-//    }
-
+    
      //.../Students/byCourse/?courseId=cyse6150
-    @GET
-    @Path("/byCourse")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Student> getStudentsByCourse(@QueryParam("courseId") String courseId){
-        return studentService.getStudentsByCourse(courseId);
-    }
-
-
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public void addStudent(String name, Program program, String image, List<Course> courses) {
-//        studentService.addStudent(name, program, image, courses);
+//    @GET
+//    @Path("/byCourse/{courseId}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<Student> getStudentsByCourse(@QueryParam("courseId") String courseId){
+//        return studentService.getStudentsByCourse(courseId);
 //    }
 
     @POST
@@ -53,7 +39,7 @@ public class StudentResource {
     @GET
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Student getStudent(@PathParam("studentId") long id) {
+    public List<Student> getStudent(@PathParam("studentId") String id) {
         return studentService.getStudent(id);
     }
 
@@ -61,7 +47,7 @@ public class StudentResource {
     @DELETE
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Student deleteStudent(@PathParam("studentId") long id) {
+    public Student deleteStudent(@PathParam("studentId") String id) {
         return studentService.deleteStudent(id);
     }
 
@@ -70,7 +56,7 @@ public class StudentResource {
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Student updateStudent(@PathParam("studentId") long id, Student student) {
+    public Student updateStudent(@PathParam("studentId") String id, Student student) {
         return studentService.updateStudentInformation(id, student);
     }
 
