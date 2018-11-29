@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CourseService {
-    //static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
+    static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
 	static DynamoDbConnector dynamoDb;
 	DynamoDBMapper mapper; 
     DynamoDBQueryExpression<Course> queryExpression;
