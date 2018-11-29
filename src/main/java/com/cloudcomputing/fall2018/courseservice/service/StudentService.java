@@ -5,9 +5,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.cloudcomputing.fall2018.courseservice.datamodel.*;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class StudentService {

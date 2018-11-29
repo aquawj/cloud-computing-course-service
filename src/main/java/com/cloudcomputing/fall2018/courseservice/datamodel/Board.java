@@ -1,5 +1,7 @@
 package com.cloudcomputing.fall2018.courseservice.datamodel;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
@@ -14,12 +16,11 @@ public class Board {
     String ID;
     String boardId;
     String courseId;
-    
+    List<String> announcements;
     
     public Board(){
 
     }
-
 
 	public Board(String boardId, String courseId) {
 		super();
@@ -57,8 +58,14 @@ public class Board {
 	public void setCourseId(String courseId) {
 		this.courseId = courseId;
 	}
-
 	
+	@DynamoDBAttribute(attributeName = "announcements")
+    public List<String> getAnnouncements() {
+        return announcements;
+    }
 
-    
+    public void setAnnouncements(List<String> announcements) {
+        this.announcements = announcements;
+    }
+
 }
