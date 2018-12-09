@@ -3,7 +3,11 @@
 https://github.com/aquawj/course-service-REST-API
 ## aws：
 previous：http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
+
 now: http://neucourseservice.us-west-2.elasticbeanstalk.com
+
+Since AWS charged me several times, I have terminated the previous one and created a new environment. If it doesn't work, feel free to contact me.
+
 ## API:
 
 ####Student
