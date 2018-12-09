@@ -20,13 +20,14 @@ public class Course {
     String department;
     String boardId;
     List<String> roster;
+    String topic;
     
     public Course(){
 
     }
 
 	public Course(String iD, String courseId, Long professorId, String taId, String department, String boardId,
-			List<String> roster) {
+			List<String> roster, String topic) {
 		this.ID = iD;
 		this.courseId = courseId;
 		this.professorId = professorId;
@@ -34,6 +35,7 @@ public class Course {
 		this.department = department;
 		this.boardId = boardId;
 		this.roster = roster;
+		this.topic = topic;
 	}
 
 	@DynamoDBHashKey(attributeName="ID")
@@ -100,5 +102,13 @@ public class Course {
 		this.roster = roster;
 	}
 
+	@DynamoDBAttribute(attributeName="topic")
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
     
 }

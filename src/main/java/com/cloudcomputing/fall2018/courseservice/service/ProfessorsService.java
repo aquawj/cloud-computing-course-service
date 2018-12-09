@@ -23,9 +23,9 @@ public class ProfessorsService {
     DynamoDBScanExpression scanExpression;
 	
 	public ProfessorsService(){
-		dynamoDb = new DynamoDbConnector();
-		dynamoDb.init();
-		mapper = new DynamoDBMapper(dynamoDb.getClient());
+		//dynamoDb = new DynamoDbConnector();
+		DynamoDbConnector.init();
+		mapper = new DynamoDBMapper(DynamoDbConnector.getClient());
 		queryExpression = new DynamoDBQueryExpression<Professor>();
 		scanExpression = new DynamoDBScanExpression();
 	}

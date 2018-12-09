@@ -9,7 +9,6 @@ import java.util.List;
 
 public class StudentService {
 
-    //static HashMap<Long, Student> student_Map = InMemoryDatabase.getStudentDB();
 	static DynamoDbConnector dynamoDb;
 	DynamoDBMapper mapper; 
     DynamoDBQueryExpression<Student> queryExpression;
@@ -17,8 +16,8 @@ public class StudentService {
 	
 	public StudentService(){
 		dynamoDb = new DynamoDbConnector();
-		dynamoDb.init();
-		mapper = new DynamoDBMapper(dynamoDb.getClient());
+		DynamoDbConnector.init();
+		mapper = new DynamoDBMapper(DynamoDbConnector.getClient());
 		queryExpression = new DynamoDBQueryExpression<Student>();
 	    scanExpression = new DynamoDBScanExpression();
 	}
@@ -56,7 +55,14 @@ public class StudentService {
     	for(Student s : getStudent(studentId)) {
 			mapper.delete(s);
 		}
-		return getStudent(studentId).get(0);
+		Student delete = getStudent(studentId).get(0);
+		RegisterService registerService = new RegisterService();
+		for (String courseId: delete.getEnrolledCourses()) {
+			if (delete.getEmail() != null) {
+				registerService.unSubscribeTopic("arn:aws:sns:us-west-2:821043062437:" + courseId, delete.getEmail());
+			}
+		}
+		return delete;
     }
 
     //update a student
@@ -65,10 +71,17 @@ public class StudentService {
     	for(Student d : delete) {
     		mapper.delete(d);
     	}
+		RegisterService registerService = new RegisterService();
     	student.setStudentId(studentId);
+    	for (String courseId: student.getEnrolledCourses()) {
+			if (student.getEmail() != null) {
+				registerService.subscribeTopic("arn:aws:sns:us-west-2:821043062437:" + courseId, student.getEmail());
+			}
+		}
 		mapper.save(student);
-		return student;
+		return student;	
     }
+    
     
     private List<Student> queryStudents(String studentId) {
         Student student = new Student();

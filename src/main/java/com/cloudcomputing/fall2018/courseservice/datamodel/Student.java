@@ -1,6 +1,5 @@
 package com.cloudcomputing.fall2018.courseservice.datamodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,13 +20,14 @@ public class Student {
     String joiningDate;
     List<String> enrolledCourses;
     String department;
+    String email;
 
     public Student(){
 
     }
 
 	public Student(String studentId, String firstName, String lastName, String joiningDate, List<String> enrolledCourses,
-			String department) {
+			String department, String email) {
 		super();
 		this.studentId = studentId;
 		this.firstName = firstName;
@@ -35,6 +35,7 @@ public class Student {
 		this.joiningDate = joiningDate;
 		this.enrolledCourses = enrolledCourses;
 		this.department = department;
+		this.email = email;
 	}
 
 	@DynamoDBHashKey(attributeName="ID")
@@ -99,6 +100,15 @@ public class Student {
 
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+	
+	@DynamoDBAttribute(attributeName="email")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
     
