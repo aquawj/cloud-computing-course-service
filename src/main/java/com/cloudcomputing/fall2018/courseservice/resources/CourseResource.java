@@ -11,28 +11,20 @@ import java.util.List;
 public class CourseResource {
     private CourseService courseService = new CourseService();
 
+    // .../courses/
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Course> getCourses(){
         return courseService.getAllCourses();
     }
 
+    // .../courses/
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Course addCourse(Course course) {
         return courseService.addCourse(course);
     }
-
-
-     //.../courses/addStudent
-//    @POST
-//    @Path("/addStudent")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Course addStudentToCourse(String courseId, String studentId){
-//        return courseService.addStudentToCourse(courseId, studentId);
-//    }
 
     // .../courses/cyse6150
     @GET

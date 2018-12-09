@@ -1,6 +1,7 @@
 package com.cloudcomputing.fall2018.courseservice.resources;
 
 import com.cloudcomputing.fall2018.courseservice.datamodel.Student;
+import com.cloudcomputing.fall2018.courseservice.service.RegisterService;
 import com.cloudcomputing.fall2018.courseservice.service.StudentService;
 
 import javax.ws.rs.*;
@@ -12,21 +13,12 @@ public class StudentResource {
 
     static StudentService studentService = new StudentService();
 
-    // .../Students
+    // .../students
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Student> getAllStudents(){
         return studentService.getAllStudents();
     }
-
-    
-     //.../Students/byCourse/?courseId=cyse6150
-//    @GET
-//    @Path("/byCourse/{courseId}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<Student> getStudentsByCourse(@QueryParam("courseId") String courseId){
-//        return studentService.getStudentsByCourse(courseId);
-//    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -34,8 +26,21 @@ public class StudentResource {
     public Student addStudent(Student student) {
         return studentService.addStudent(student);
     }
+    
+  //.../student/1/register
+  	@POST
+  	@Path("/{studentId}/register")
+  	@Produces(MediaType.APPLICATION_JSON)
+  	@Consumes(MediaType.APPLICATION_JSON)
+  	public String updatestudent(@PathParam("studentId") String studentId, 
+  			String courseId) {
+  		RegisterService service = new RegisterService();
+  		service.register(studentId, courseId);
+  		
+  		return service.isRegistered ? "Registration success" : "Registration failed";
+  	}
 
-    // .../Students/1
+    // .../students/1
     @GET
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +48,7 @@ public class StudentResource {
         return studentService.getStudent(id);
     }
 
-    // .../Students/1
+    // .../students/1
     @DELETE
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)

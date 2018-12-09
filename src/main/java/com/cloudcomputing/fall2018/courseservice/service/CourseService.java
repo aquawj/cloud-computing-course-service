@@ -1,8 +1,15 @@
 package com.cloudcomputing.fall2018.courseservice.service;
 
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.AmazonSNSClientBuilder;
+import com.amazonaws.services.sns.model.CreateTopicRequest;
+import com.amazonaws.services.sns.model.CreateTopicResult;
+import com.amazonaws.services.sns.model.DeleteTopicRequest;
 import com.cloudcomputing.fall2018.courseservice.datamodel.*;
 
 import java.util.ArrayList;
@@ -10,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CourseService {
+	private static AmazonSNSClientBuilder snsClientBuilder;
+	private static AmazonSNSClient  snsClient;
+	
     static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
 	static DynamoDbConnector dynamoDb;
 	DynamoDBMapper mapper; 
@@ -22,6 +32,12 @@ public class CourseService {
 		mapper = new DynamoDBMapper(dynamoDb.getClient());
 		queryExpression = new DynamoDBQueryExpression<Course>();
 	    scanExpression = new DynamoDBScanExpression();
+	    snsClientBuilder = AmazonSNSClientBuilder
+				.standard()
+				.withCredentials(new InstanceProfileCredentialsProvider(false))
+				.withRegion(Regions.US_WEST_2);
+		
+		snsClient = (AmazonSNSClient) snsClientBuilder.build();
 	}
 
     //get all courses
@@ -60,19 +76,22 @@ public class CourseService {
     public Course deleteStudentInCourse(String courseId, String studentId) {
     	Course course = getCourse(courseId).get(0);
         course.getRoster().remove(studentId);
+        removeTopic(course.getTopic());
         return course;
     }
-
-    //delete a lecture in a course
     
-    //update a course
-    
+    //update a course  
     public Course updateCourseInformation(String courseId, Course course) {
-    	List<Course> delete = getCourse(courseId);
+ 	    List<Course> delete = getCourse(courseId);
     	for(Course d : delete) {
     		mapper.delete(d);
     	}
     	course.setCourseId(courseId);
+	
+		removeTopic(delete.get(0).getTopic());
+		String topic = createTopic(course.getCourseId().toString());
+		course.setTopic(topic);
+		
 		mapper.save(course);
 		return course;
     }
@@ -86,4 +105,21 @@ public class CourseService {
         List<Course> courses = mapper.query(Course.class, queryExpression);
         return courses;
     }
+    
+    public static AmazonSNSClient getSNSClient() {
+		return snsClient;
+	}
+    
+    public String createTopic(String courseId) {
+		CreateTopicRequest createTopicRequest = new CreateTopicRequest(courseId);
+        CreateTopicResult createTopicResult = snsClient.createTopic(createTopicRequest);
+        
+        String topic = createTopicResult.getTopicArn();
+        return topic;
+	}
+	
+	public void removeTopic(String topic) {
+		DeleteTopicRequest deleteTopicRequest = new DeleteTopicRequest(topic);
+		snsClient.deleteTopic(deleteTopicRequest);
+	}
 }

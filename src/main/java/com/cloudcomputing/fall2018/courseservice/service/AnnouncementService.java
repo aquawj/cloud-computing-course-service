@@ -3,9 +3,12 @@ package com.cloudcomputing.fall2018.courseservice.service;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.cloudcomputing.fall2018.courseservice.datamodel.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnnouncementService {
 
@@ -32,9 +35,21 @@ public class AnnouncementService {
         return an;
     }
 
-    // get a Announcement by boardID_announcementId
     public List<Announcement> getAnnouncement(String bId_aId) {
-    	List<Announcement> announcements = queryAnnouncements(bId_aId);
+    	String[] ids = bId_aId.split("_");
+    	String bId = ids[0];
+    	String aId = ids[1];
+    	Map<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+		eav.put(":v1",  new AttributeValue().withS(bId));
+		eav.put(":v2",  new AttributeValue().withS(aId));
+
+		DynamoDBQueryExpression<Announcement> queryExpression = new DynamoDBQueryExpression<Announcement>()
+		    .withIndexName("BoardId-AnnouncementId-Index")
+		    .withConsistentRead(false)
+		    .withKeyConditionExpression("BoardId = :v1 and begins_with(AnnouncementId, :v2)")
+		    .withExpressionAttributeValues(eav);
+
+		List<Announcement> announcements =  mapper.query(Announcement.class, queryExpression);
 		return announcements;
     }
     

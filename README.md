@@ -1,8 +1,9 @@
 # course-service-REST-API
 ## github：
-https://github.com/aquawj/cloud-computing-course-service
+https://github.com/aquawj/course-service-REST-API
 ## aws：
-http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
+previous：http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
+now: http://neucourseservice.us-west-2.elasticbeanstalk.com
 ## API:
 
 ####Student
@@ -23,17 +24,17 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
       
       
       {
-      ​        "enrolledCourses": [
-      ​            "cloud",
-      ​            "data",
-      ​            "java"
-      ​        ],
-      ​        "id": 1,
-      ​        "image": "www.image.com/22",
-      ​        "name": "Jane",
-      ​        "programName": "IS"
-      ​    },
-      ​    
+              "enrolledCourses": [
+                  "cloud",
+                  "data",
+                  "java"
+              ],
+              "id": 1,
+              "image": "www.image.com/22",
+              "name": "Jane",
+              "programName": "IS"
+          },
+          
           {
               "enrolledCourses": [
                   "cloud",
@@ -68,13 +69,13 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
               "name": "Ethan",
               "programName": "IS"
           }
-      
+          
 3.PUT
 
    webapi/students/{studentId}
-​       
+       
    body:
-​        
+        
        {
         
         "id": 1,
@@ -86,8 +87,8 @@ http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
 4.DELETE 
 
 webapi/students/{studentId}
-​     
-​     
+     
+     
 ####Courses
 
 1. GET
@@ -108,65 +109,65 @@ webapi/students/{studentId}
       
       
       {
-      ​        "id": "cyse6150",
-      ​        "lectures": [
-      ​            1,
-      ​            2
-      ​        ],
-      ​        "name": "cloud",
-      ​        "students": [
-      ​            1,
-      ​            3
-      ​        ]
-      ​    },
-      ​    {
-      ​        "id": "cyse6250",
-      ​        "lectures": [
-      ​            3
-      ​        ],
-      ​        "name": "data",
-      ​        "students": [
-      ​            2
-      ​        ]
-      ​    },
-      ​    {
-      ​        "id": "cs61",
-      ​        "lectures": [
-      ​            1
-      ​        ],
-      ​        "name": "PDP",
-      ​        "students": [
-      ​            4
-      ​        ]
-      ​    },
-      ​    {
-      ​        "id": "info5100",
-      ​        "lectures": [],
-      ​        "name": "java",
-      ​        "students": [
-      ​            1,
-      ​            2,
-      ​            3
-      ​        ],
-      ​        "taId": 2
-      ​    },
-      ​    {
-      ​        "id": "cs300",
-      ​        "lectures": [],
-      ​        "name": "PDP",
-      ​        "students": [
-      ​            4
-      ​        ]
-      ​    }
+              "id": "cyse6150",
+              "lectures": [
+                  1,
+                  2
+              ],
+              "name": "cloud",
+              "students": [
+                  1,
+                  3
+              ]
+          },
+          {
+              "id": "cyse6250",
+              "lectures": [
+                  3
+              ],
+              "name": "data",
+              "students": [
+                  2
+              ]
+          },
+          {
+              "id": "cs61",
+              "lectures": [
+                  1
+              ],
+              "name": "PDP",
+              "students": [
+                  4
+              ]
+          },
+          {
+              "id": "info5100",
+              "lectures": [],
+              "name": "java",
+              "students": [
+                  1,
+                  2,
+                  3
+              ],
+              "taId": 2
+          },
+          {
+              "id": "cs300",
+              "lectures": [],
+              "name": "PDP",
+              "students": [
+                  4
+              ]
+          }
       
 3.PUT
 
    webapi/courses/{courseid}
-
+   
    e.g. webapi/courses/cyse6150
-​       
+       
    body: 
-
+   
        {
          "id": "cs300",
          "name": "PDP",
@@ -174,20 +175,22 @@ webapi/students/{studentId}
                         2,4
                      ]
         }
-
+        
 4.DELETE 
 
    webapi/courses/{courseid}
-
-
+   
+   
 ####Program
-
+   
    1. GET
-
+   
         webapi/programs
-
+        
         webapi/programs/{programName}
+        
 
+        
    2. POST 
    
          webapi/programs
@@ -196,30 +199,30 @@ webapi/students/{studentId}
          
          
          {
-         ​        "courses": [
-         ​            "PDP",
-         ​            "web",
-         ​            "mobile"
-         ​        ],
-         ​        "name": "CS"
-         ​    },
-         ​    {
-         ​        "courses": [
-         ​            "java",
-         ​            "web",
-         ​            "data",
-         ​            "cloud"
-         ​        ],
-         ​        "name": "IS"
-         ​    }
-      3.PUT
+                 "courses": [
+                     "PDP",
+                     "web",
+                     "mobile"
+                 ],
+                 "name": "CS"
+             },
+             {
+                 "courses": [
+                     "java",
+                     "web",
+                     "data",
+                     "cloud"
+                 ],
+                 "name": "IS"
+             }
+   3.PUT
 
    webapi/programs/{programName}
-
+   
    e.g. webapi/programs/IS
-​       
+       
    body: 
-
+   
        {
         "courses": [
                         "java",
@@ -228,33 +231,33 @@ webapi/students/{studentId}
                         ],
         "name": "IS"
         }
-
+        
    4.DELETE 
 
    webapi/programs/{programName}
-
+   
    webapi/programs/{programName}/{courseId}
-
-
+   
+   
    e.g. webapi/programs/CS
-
+   
    webapi/programs/CS/PDP
-
-
+   
+   
    ####Lecture
-​      
-  1. GET
-     
-           webapi/lectures
-         
-           webapi/lectures/{lectureId}
-         
       
-         
+  1. GET
+      
+           webapi/lectures
+           
+           webapi/lectures/{lectureId}
+           
+   
+           
   2. POST 
-     
+      
             webapi/lectures
-          
+            
             body: 
 
     {
@@ -273,14 +276,14 @@ webapi/students/{studentId}
             ],
             "notes": "notes2"
         }
-
+                
   3.PUT
-
+   
   webapi/lectures/{lectureId}
-​      
-​          
+      
+          
   body: 
-​      
+      
           {
               "id": 2,
               "materials": [
@@ -289,9 +292,9 @@ webapi/students/{studentId}
                               ],
               "notes": "notes3"
           }
-
+           
    4.DELETE 
-
+   
    webapi/lectures/{lectureId}
-
+   
    
