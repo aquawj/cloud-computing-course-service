@@ -12,15 +12,13 @@ import com.amazonaws.services.sns.model.CreateTopicResult;
 import com.amazonaws.services.sns.model.DeleteTopicRequest;
 import com.cloudcomputing.fall2018.courseservice.datamodel.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CourseService {
 	private static AmazonSNSClientBuilder snsClientBuilder;
 	private static AmazonSNSClient  snsClient;
 	
-    static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
+    //static HashMap<String, Course> course_Map = InMemoryDatabase.getCourseDB();
 	static DynamoDbConnector dynamoDb;
 	DynamoDBMapper mapper; 
     DynamoDBQueryExpression<Course> queryExpression;

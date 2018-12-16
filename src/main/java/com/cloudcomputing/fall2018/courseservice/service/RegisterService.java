@@ -2,32 +2,36 @@ package com.cloudcomputing.fall2018.courseservice.service;
 
 import java.util.List;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
-import com.cloudcomputing.fall2018.courseservice.datamodel.Course;
-import com.cloudcomputing.fall2018.courseservice.datamodel.DynamoDbConnector;
-import com.cloudcomputing.fall2018.courseservice.datamodel.Student;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.ListSubscriptionsByTopicRequest;
 import com.amazonaws.services.sns.model.ListSubscriptionsByTopicResult;
 import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.amazonaws.services.sns.model.Subscription;
 import com.amazonaws.services.sns.model.UnsubscribeRequest;
+import com.cloudcomputing.fall2018.courseservice.datamodel.Course;
+import com.cloudcomputing.fall2018.courseservice.datamodel.DynamoDbConnector;
+import com.cloudcomputing.fall2018.courseservice.datamodel.Student;
+import com.cloudcomputing.fall2018.courseservice.datamodel.Board;
+import com.cloudcomputing.fall2018.courseservice.datamodel.Registrar;
+
 
 
 public class RegisterService{
 	
 	static DynamoDB dynamoDB;
+	DynamoDBMapper mapper; 
 	public boolean isRegistered = false;
-    
+	
     public RegisterService(){
 		DynamoDbConnector.init();
+		dynamoDB = new DynamoDB(DynamoDbConnector.getClient());
+		mapper = new DynamoDBMapper(DynamoDbConnector.getClient());
 	}
     
     StudentService studentService = new StudentService();
@@ -40,7 +44,7 @@ public class RegisterService{
 		if (student == null || course == null || student.getEnrolledCourses().size() > 2) return;
 		List<String> newCourseList = student.getEnrolledCourses();
 		newCourseList.add(courseId);
-		
+				
 		Table StudentTable = dynamoDB.getTable("student");
 		UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("ID", student.getID())
 	            .withUpdateExpression("set EnrolledClasses= :a")
@@ -62,6 +66,13 @@ public class RegisterService{
 		isRegistered = true;
 	}
 	
+	public Registrar addRegistrar(Registrar registrar) {
+		mapper.save(registrar);
+		String offeringId = registrar.getOfferingId();
+		Board board = new Board(offeringId);
+		mapper.save(board);
+		return registrar;
+	}
 	
 	public void subscribeTopic(String topicArn, String email) {
 		AmazonSNSClient  snsClient = CourseService.getSNSClient();

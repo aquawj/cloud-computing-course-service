@@ -1,10 +1,12 @@
-# course-service-REST-API
+# Course Service
 ## github：
-https://github.com/aquawj/course-service-REST-API
+https://github.com/aquawj/cloud-computing-course-service
 ## aws：
-previous：http://courseservice-env.f7qscjk2ii.us-west-2.elasticbeanstalk.com/
-now: http://neucourseservice.us-west-2.elasticbeanstalk.com
-## API:
+http://neucourseservice.us-west-2.elasticbeanstalk.com
+## Current stage: 
+assignment 4 is deployed and code is updated.
+
+## API for assignment1:
 
 ####Student
 
