@@ -21,6 +21,11 @@ public class Board {
     public Board(){
 
     }
+    
+    public Board(String boardId) {
+		super();
+		this.boardId = boardId;
+	}
 
 	public Board(String boardId, String courseId) {
 		super();
